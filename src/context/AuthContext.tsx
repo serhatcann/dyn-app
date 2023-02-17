@@ -12,6 +12,7 @@ import { auth } from '../library/firebase';
 type UserCtx = {
 	registerUser: (user: MyUser) => Promise<UserCredential>;
 	user: User | null;
+	logOut: () => Promise<void>;
 };
 
 const userCtx: UserCtx = {} as UserCtx;
@@ -29,21 +30,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		return createUserWithEmailAndPassword(auth, user.email, user.password);
 	};
 
+	const logOut = () => {
+		return signOut(auth);
+	};
+
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
-			console.log(user);
-
 			setUser(user);
 		});
 
 		return () => {
-			unsubscribe;
+			unsubscribe();
 		};
 	}, []);
 
 	const values = {
 		registerUser,
 		user,
+		logOut,
 	};
 	return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 };
