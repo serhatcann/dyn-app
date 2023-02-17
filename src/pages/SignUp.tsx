@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
 
 const SignUp = () => {
@@ -7,12 +7,13 @@ const SignUp = () => {
 	const [password, setPassword] = useState('');
 	const [favSport, setFavSport] = useState('');
 	const [favTeam, setFavTeam] = useState('');
-
+	const navigate = useNavigate();
 	const { registerUser } = UserAuth();
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-		registerUser({ email, password });
+		await registerUser({ email, password });
+		navigate('/home');
 		try {
 		} catch (error: any) {
 			console.log(error);

@@ -1,15 +1,17 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
+	User,
 	onAuthStateChanged,
 	UserCredential,
 } from 'firebase/auth';
 import { auth } from '../library/firebase';
 
 type UserCtx = {
-	registerUser: (user: User) => Promise<UserCredential>;
+	registerUser: (user: MyUser) => Promise<UserCredential>;
+	user: User | null;
 };
 
 const userCtx: UserCtx = {} as UserCtx;
@@ -21,15 +23,29 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-	const registerUser = (user: User) => {
+	const [user, setUser] = useState<User | null>(null);
+
+	const registerUser = (user: MyUser) => {
 		return createUserWithEmailAndPassword(auth, user.email, user.password);
 	};
 
-	return (
-		<UserContext.Provider value={{ registerUser }}>
-			{children}
-		</UserContext.Provider>
-	);
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			console.log(user);
+
+			setUser(user);
+		});
+
+		return () => {
+			unsubscribe;
+		};
+	}, []);
+
+	const values = {
+		registerUser,
+		user,
+	};
+	return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 };
 
 export const UserAuth = () => {
