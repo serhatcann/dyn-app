@@ -6,14 +6,14 @@ import { UserAuth } from '../context/AuthContext';
 const SignUp = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [favSport, setFavSport] = useState('');
-	const [favTeam, setFavTeam] = useState('');
+	const [sport, setSport] = useState('');
+	const [team, setTeam] = useState('');
 	const navigate = useNavigate();
 	const { registerUser } = UserAuth();
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-		await registerUser({ email, password });
+		await registerUser({ email, password, sport, team });
 		navigate(HOME);
 		try {
 		} catch (error: any) {
@@ -39,6 +39,7 @@ const SignUp = () => {
 						className='border p-3'
 						type='email'
 						value={email}
+						required
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 				</div>
@@ -48,6 +49,7 @@ const SignUp = () => {
 						className='border p-3'
 						type='password'
 						value={password}
+						required
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 				</div>
@@ -56,8 +58,9 @@ const SignUp = () => {
 					<input
 						className='border p-3'
 						type='text'
-						value={favSport}
-						onChange={(e) => setFavSport(e.target.value)}
+						value={sport}
+						required
+						onChange={(e) => setSport(e.target.value)}
 					/>
 				</div>
 				<div className='flex flex-col py-2'>
@@ -65,8 +68,9 @@ const SignUp = () => {
 					<input
 						className='border p-3'
 						type='text'
-						value={favTeam}
-						onChange={(e) => setFavTeam(e.target.value)}
+						value={team}
+						required
+						onChange={(e) => setTeam(e.target.value)}
 					/>
 				</div>
 				<button className='border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white'>
