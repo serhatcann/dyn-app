@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { HOME, SIGN_UP } from '../constant';
 import { UserAuth } from '../context/AuthContext';
 
 const SignIn = () => {
@@ -11,7 +12,7 @@ const SignIn = () => {
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		await signIn({ email, password });
-		navigate('/home');
+		navigate(HOME);
 		try {
 		} catch (error: any) {
 			console.log(error);
@@ -24,7 +25,7 @@ const SignIn = () => {
 				<h1 className='text-2xl font-bold py-2'>Sign in to your account</h1>
 				<p className='py-2'>
 					Don't have an account yet?{' '}
-					<Link to='/signup' className='underline'>
+					<Link to={SIGN_UP} className='underline'>
 						Sign up.
 					</Link>
 				</p>

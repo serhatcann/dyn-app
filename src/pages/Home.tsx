@@ -1,5 +1,6 @@
 import { UserAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { SIGN_IN } from '../constant';
 
 const Home = () => {
 	const { user, logOut } = UserAuth();
@@ -8,7 +9,7 @@ const Home = () => {
 	const handleLogout = async () => {
 		try {
 			await logOut();
-			navigate('/');
+			navigate(SIGN_IN);
 		} catch (error) {
 			console.log(error);
 		}

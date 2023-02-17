@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { HOME, SIGN_IN, SIGN_UP } from './constant';
 import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
@@ -10,9 +11,9 @@ function App() {
 			<h1 className='text-center text-3xl font-bold'>Dyn Media App</h1>
 			<AuthProvider>
 				<Routes>
-					<Route path='/' element={<SignIn />} />
-					<Route path='/signup' element={<SignUp />} />
-					<Route path='/home' element={<Home />} />
+					<Route path={SIGN_IN} element={<SignIn />} />
+					<Route path={SIGN_UP} element={<SignUp />} />
+					<Route path={HOME} element={<Home />} />
 				</Routes>
 			</AuthProvider>
 		</div>
