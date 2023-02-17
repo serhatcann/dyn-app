@@ -13,6 +13,7 @@ const firebaseConfig = {
 	appId: import.meta.env.VITE_REACT_APP_FIREBASE_APP_ID,
 };
 const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const firestore = getFirestore(firebaseApp);
 
-export const firestore = getFirestore(firebaseApp);
-export const auth = getAuth(firebaseApp);
+export { auth, firestore };
