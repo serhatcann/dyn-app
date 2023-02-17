@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import { HOME, SIGN_IN, SIGN_UP } from './constant';
+import { ALL_ROUTES, HOME, SIGN_IN, SIGN_UP } from './constant';
 import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './helpers/ProtectedRoute';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -13,7 +14,10 @@ function App() {
 				<Routes>
 					<Route path={SIGN_IN} element={<SignIn />} />
 					<Route path={SIGN_UP} element={<SignUp />} />
-					<Route path={HOME} element={<Home />} />
+					<Route element={<ProtectedRoute />}>
+						<Route path={HOME} element={<Home />} />
+					</Route>
+					<Route path={ALL_ROUTES} element={<ProtectedRoute />} />
 				</Routes>
 			</AuthProvider>
 		</div>
