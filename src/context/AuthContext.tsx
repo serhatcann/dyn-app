@@ -5,15 +5,15 @@ import {
 	signOut,
 	User,
 	onAuthStateChanged,
-	UserCredential,
 } from 'firebase/auth';
-import { auth } from '../library/firebase';
+import { auth, firestore } from '../library/firebase';
+import { addDoc, collection } from 'firebase/firestore';
 
 type UserCtx = {
-	registerUser: (user: MyUser) => Promise<UserCredential>;
+	registerUser: (user: MyUser) => Promise<void>;
 	user: User | null;
 	logOut: () => Promise<void>;
-	signIn: (user: MyUser) => Promise<UserCredential>;
+	signIn: (user: MyUser) => Promise<void>;
 };
 
 const userCtx: UserCtx = {} as UserCtx;
@@ -27,12 +27,37 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [user, setUser] = useState<User | null>(null);
 
-	const registerUser = (user: MyUser) => {
-		return createUserWithEmailAndPassword(auth, user.email, user.password);
+	const registerUser = async (user: MyUser) => {
+		try {
+			const response = await createUserWithEmailAndPassword(
+				auth,
+				user.email,
+				user.password,
+			);
+
+			const { email } = response.user;
+			const docRef = await addDoc(collection(firestore, 'favorites'), {
+				email: email,
+				sport: user.sport,
+				team: user.team,
+			});
+			console.log('Document written with ID: ', docRef.id);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	const signIn = (user: MyUser) => {
-		return signInWithEmailAndPassword(auth, user.email, user.password);
+	const signIn = async (user: MyUser) => {
+		try {
+			const response = await signInWithEmailAndPassword(
+				auth,
+				user.email,
+				user.password,
+			);
+			const { email } = response.user;
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const logOut = () => {
