@@ -13,9 +13,9 @@ const SignUp = () => {
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-		await registerUser({ email, password, sport, team });
-		navigate(HOME);
 		try {
+			await registerUser({ email, password, sport, team });
+			navigate(HOME);
 		} catch (error: any) {
 			console.log(error);
 		}

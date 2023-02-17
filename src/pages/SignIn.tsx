@@ -11,9 +11,9 @@ const SignIn = () => {
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-		await signIn({ email, password });
-		navigate(HOME);
 		try {
+			await signIn({ email, password });
+			navigate(HOME);
 		} catch (error: any) {
 			console.log(error);
 		}
@@ -37,6 +37,7 @@ const SignIn = () => {
 						className='border p-3'
 						type='email'
 						value={email}
+						required
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 				</div>
@@ -46,6 +47,7 @@ const SignIn = () => {
 						className='border p-3'
 						type='password'
 						value={password}
+						required
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 				</div>
