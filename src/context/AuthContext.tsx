@@ -13,6 +13,7 @@ type UserCtx = {
 	registerUser: (user: MyUser) => Promise<UserCredential>;
 	user: User | null;
 	logOut: () => Promise<void>;
+	signIn: (user: MyUser) => Promise<UserCredential>;
 };
 
 const userCtx: UserCtx = {} as UserCtx;
@@ -28,6 +29,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const registerUser = (user: MyUser) => {
 		return createUserWithEmailAndPassword(auth, user.email, user.password);
+	};
+
+	const signIn = (user: MyUser) => {
+		return signInWithEmailAndPassword(auth, user.email, user.password);
 	};
 
 	const logOut = () => {
@@ -46,6 +51,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const values = {
 		registerUser,
+		signIn,
 		user,
 		logOut,
 	};
