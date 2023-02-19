@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import InputGroup from '../components/InputGroup';
@@ -36,6 +37,10 @@ const SignUp = () => {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		document.title = 'Sign Up - Dyn Media';
+	}, []);
 
 	return (
 		<div className='max-w-[700px] mx-auto my-16 p-4'>

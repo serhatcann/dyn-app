@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import InputGroup from '../components/InputGroup';
 import { HOME, SIGN_UP } from '../constant';
 import { UserAuth } from '../context/AuthContext';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Button from '../components/Button';
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -35,6 +35,10 @@ const SignIn = () => {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		document.title = 'Sign In - Dyn Media';
+	}, []);
 
 	return (
 		<div className='max-w-[700px] mx-auto my-16 p-4'>

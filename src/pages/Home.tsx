@@ -2,6 +2,7 @@ import { UserAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { SIGN_IN } from '../constant';
 import Button from '../components/Button';
+import { useEffect } from 'react';
 
 const Home = () => {
 	const { user, favorites, logOut } = UserAuth();
@@ -15,6 +16,10 @@ const Home = () => {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		document.title = 'Home - Dyn Media';
+	}, []);
 
 	return (
 		<div className='max-w-[600px] mx-auto my-16 p-4'>
