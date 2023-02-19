@@ -3,10 +3,10 @@ import { describe, it, expect } from 'vitest';
 import { fireEvent, render } from '@testing-library/react';
 // To Test
 
-import InputGroup from '../components/InputGroup';
+import InputGroup from '../../components/InputGroup';
 // Tests
-describe('Renders main page correctly', async () => {
-	it('The input field and its props', () => {
+describe('InputGroup', async () => {
+	it('Should render the input field and its props', () => {
 		render(<InputGroup name='email' type='email' label={'Email Address'} />);
 		const input = document.querySelector('input') as HTMLInputElement | null;
 

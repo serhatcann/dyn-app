@@ -5,10 +5,10 @@ import userEvent from '@testing-library/user-event';
 
 // To Test
 
-import Button from '../components/Button';
+import Button from '../../components/Button';
 // Tests
-describe('Renders the button component', async () => {
-	it('Button and its props', () => {
+describe('Button', async () => {
+	it('Should render Button and its props', () => {
 		render(<Button type='submit' label={'Test Button'} />);
 		const button = document.querySelector('button') as HTMLButtonElement | null;
 

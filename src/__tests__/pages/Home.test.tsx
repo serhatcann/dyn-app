@@ -2,11 +2,11 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 // To Test
-import Home from '../pages/Home';
+import Home from '../../pages/Home';
 import { BrowserRouter } from 'react-router-dom';
-import { UserContext, UserCtx } from '../context/AuthContext';
+import { UserContext, UserCtx } from '../../context/AuthContext';
 // Tests
-describe('Renders sign in page correctly', async () => {
+describe('Home Page', async () => {
 	it('Should render the header correctly', async () => {
 		// Setup
 		render(<Home />, { wrapper: BrowserRouter });
