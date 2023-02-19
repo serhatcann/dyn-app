@@ -3,6 +3,7 @@ import InputGroup from '../components/InputGroup';
 import { HOME, SIGN_UP } from '../constant';
 import { UserAuth } from '../context/AuthContext';
 import { useRef } from 'react';
+import Button from '../components/Button';
 
 interface FormElements extends HTMLFormControlsCollection {
 	email: HTMLInputElement;
@@ -59,9 +60,11 @@ const SignIn = () => {
 					label='Password'
 					required={true}
 				/>
-				<button className='border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white'>
-					Sign In
-				</button>
+				<Button
+					label='Sign In'
+					type='submit'
+					style=' w-full border-blue-500 bg-blue-600 hover:bg-blue-500 text-white'
+				/>
 			</form>
 		</div>
 	);

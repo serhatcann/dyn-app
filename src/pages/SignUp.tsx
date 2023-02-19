@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import Button from '../components/Button';
 import InputGroup from '../components/InputGroup';
 import { HOME, SIGN_IN } from '../constant';
 import { UserAuth } from '../context/AuthContext';
@@ -72,9 +73,11 @@ const SignUp = () => {
 					label='Favorite Team'
 					required={true}
 				/>
-				<button className='border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white'>
-					Sign Up
-				</button>
+				<Button
+					label='Sign Up'
+					type='submit'
+					style=' w-full border-blue-500 bg-blue-600 hover:bg-blue-500 text-white'
+				/>
 			</form>
 		</div>
 	);

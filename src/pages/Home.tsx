@@ -1,6 +1,7 @@
 import { UserAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { SIGN_IN } from '../constant';
+import Button from '../components/Button';
 
 const Home = () => {
 	const { user, favorites, logOut } = UserAuth();
@@ -22,9 +23,7 @@ const Home = () => {
 			<p>
 				Favorite Sport/Team: {favorites?.sport} / {favorites?.team}
 			</p>
-			<button className='border px-6 py-2 my-4' onClick={handleLogout}>
-				Logout
-			</button>
+			<Button label='Logout' style='px-6 py-2 my-4' onClick={handleLogout} />
 		</div>
 	);
 };

@@ -36,3 +36,10 @@ type InputProps = {
 	label: string;
 	required?: boolean;
 };
+
+type ButtonProps = {
+	label: string;
+	type?: 'button' | 'submit';
+	style?: string;
+	onClick?: () => void;
+};
