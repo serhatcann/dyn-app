@@ -2,8 +2,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import InputGroup from '../components/InputGroup';
 import { HOME, SIGN_UP } from '../constant';
 import { UserAuth } from '../context/AuthContext';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from '../components/Button';
+import Error from '../components/Error';
 
 interface FormElements extends HTMLFormControlsCollection {
 	email: HTMLInputElement;
@@ -17,6 +18,7 @@ interface MyFormElement extends HTMLFormElement {
 const SignIn = () => {
 	const navigate = useNavigate();
 	const { signIn } = UserAuth();
+	const [error, setError] = useState();
 
 	const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -30,7 +32,8 @@ const SignIn = () => {
 
 		try {
 			const response = await signIn({ email, password });
-			if (response) navigate(HOME);
+			if (response?.message) return setError(response.message);
+			if (response?.email) navigate(HOME);
 		} catch (error: any) {
 			console.log(error);
 		}
@@ -64,6 +67,7 @@ const SignIn = () => {
 					label='Password'
 					required={true}
 				/>
+				{error && <Error>{error}</Error>}
 				<Button
 					label='Sign In'
 					type='submit'

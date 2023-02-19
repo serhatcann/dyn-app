@@ -34,6 +34,7 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [userAuth, setUserAuth] = useState<User | null>(null);
 	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
 	const registerUser = async (user: MyUser) => {
 		try {
 			const response = await createUserWithEmailAndPassword(
@@ -52,29 +53,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 				return email;
 			}
 		} catch (error) {
-			console.log(error);
+			return error;
 		}
 	};
 
-	const signIn = async (signInuser: MyUser) => {
+	const signIn = async (user: MyUser) => {
 		try {
-			await signInWithEmailAndPassword(
-				auth,
-				signInuser.email,
-				signInuser.password,
-			);
-			const docRef = doc(firestore, 'favorites', signInuser.email);
+			await signInWithEmailAndPassword(auth, user.email, user.password);
+			const docRef = doc(firestore, 'favorites', user.email);
 			const docSnap = await getDoc(docRef);
 
 			if (docSnap.exists()) {
 				const { sport, team } = docSnap.data();
-				setUserInfo({ email: signInuser.email, sport, team });
-				return signInuser.email;
+				setUserInfo({ email: user.email, sport, team });
+				return user.email;
 			} else {
-				console.log('No such document!');
+				return { message: 'No such document!' };
 			}
 		} catch (error) {
-			console.log(error);
+			return error;
 		}
 	};
 

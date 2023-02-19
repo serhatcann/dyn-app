@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import InputGroup from '../components/InputGroup';
+import Error from '../components/Error';
 import { HOME, SIGN_IN } from '../constant';
 import { UserAuth } from '../context/AuthContext';
 
@@ -19,6 +20,7 @@ interface MyFormElement extends HTMLFormElement {
 const SignUp = () => {
 	const navigate = useNavigate();
 	const { registerUser } = UserAuth();
+	const [error, setError] = useState();
 
 	const handleSubmit = async (e: React.FormEvent<MyFormElement>) => {
 		e.preventDefault();
@@ -32,7 +34,8 @@ const SignUp = () => {
 
 		try {
 			const response = await registerUser({ email, password, sport, team });
-			if (response) navigate(HOME);
+			if (response?.message) return setError(response.message);
+			if (response?.email) navigate(HOME);
 		} catch (error: any) {
 			console.log(error);
 		}
@@ -78,6 +81,7 @@ const SignUp = () => {
 					label='Favorite Team'
 					required={true}
 				/>
+				{error && <Error>{error}</Error>}
 				<Button
 					label='Sign Up'
 					type='submit'
