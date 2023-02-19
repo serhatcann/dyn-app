@@ -15,7 +15,7 @@ type UserInfo = {
 	team?: string;
 };
 
-type UserCtx = {
+export type UserCtx = {
 	registerUser: (user: MyUser) => Promise<any>;
 	userAuth: User | null;
 	userInfo: UserInfo | null;
@@ -25,7 +25,7 @@ type UserCtx = {
 
 const userCtx: UserCtx = {} as UserCtx;
 
-const UserContext = createContext(userCtx);
+export const UserContext = createContext(userCtx);
 
 type AuthProviderProps = {
 	children?: React.ReactNode;
