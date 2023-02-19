@@ -31,8 +31,8 @@ const SignUp = () => {
 		if (!email || !password || !sport || !team) return;
 
 		try {
-			await registerUser({ email, password, sport, team });
-			navigate(HOME);
+			const response = await registerUser({ email, password, sport, team });
+			if (response) navigate(HOME);
 		} catch (error: any) {
 			console.log(error);
 		}

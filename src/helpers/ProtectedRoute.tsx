@@ -3,8 +3,8 @@ import { SIGN_IN } from '../constant';
 import { UserAuth } from '../context/AuthContext';
 
 const ProtectedRoute = () => {
-	const { user } = UserAuth();
-	if (!user) {
+	const { userAuth } = UserAuth();
+	if (!userAuth) {
 		return <Navigate to={SIGN_IN} />;
 	}
 

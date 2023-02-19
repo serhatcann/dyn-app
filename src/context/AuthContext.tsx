@@ -9,17 +9,18 @@ import {
 import { auth, firestore } from '../library/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-type Favorites = {
+type UserInfo = {
+	email: string;
 	sport?: string;
 	team?: string;
 };
 
 type UserCtx = {
-	registerUser: (user: MyUser) => Promise<void>;
-	user: User | null;
-	favorites: Favorites | null;
+	registerUser: (user: MyUser) => Promise<any>;
+	userAuth: User | null;
+	userInfo: UserInfo | null;
 	logOut: () => Promise<void>;
-	signIn: (user: MyUser) => Promise<void>;
+	signIn: (user: MyUser) => Promise<any>;
 };
 
 const userCtx: UserCtx = {} as UserCtx;
@@ -31,8 +32,8 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-	const [user, setUser] = useState<User | null>(null);
-	const [favorites, setFavorites] = useState<Favorites | null>(null);
+	const [userAuth, setUserAuth] = useState<User | null>(null);
+	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 	const registerUser = async (user: MyUser) => {
 		try {
 			const response = await createUserWithEmailAndPassword(
@@ -47,8 +48,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 					sport: user.sport,
 					team: user.team,
 				});
-				console.log('Document written with ID: ', email);
-				setFavorites({ sport: user.sport, team: user.team });
+				setUserInfo({ email, sport: user.sport, team: user.team });
+				return email;
 			}
 		} catch (error) {
 			console.log(error);
@@ -67,7 +68,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 			if (docSnap.exists()) {
 				const { sport, team } = docSnap.data();
-				setFavorites({ sport, team });
+				setUserInfo({ email: signInuser.email, sport, team });
+				return signInuser.email;
 			} else {
 				console.log('No such document!');
 			}
@@ -82,7 +84,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
-			setUser(user);
+			setUserAuth(user);
 		});
 
 		return () => {
@@ -93,8 +95,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const values = {
 		registerUser,
 		signIn,
-		user,
-		favorites,
+		userAuth,
+		userInfo,
 		logOut,
 	};
 	return <UserContext.Provider value={values}>{children}</UserContext.Provider>;

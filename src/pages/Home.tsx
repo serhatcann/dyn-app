@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import { useEffect } from 'react';
 
 const Home = () => {
-	const { user, favorites, logOut } = UserAuth();
+	const { userInfo, logOut } = UserAuth();
 	const navigate = useNavigate();
 
 	const handleLogout = async () => {
@@ -24,9 +24,9 @@ const Home = () => {
 	return (
 		<div className='max-w-[600px] mx-auto my-16 p-4'>
 			<h1 className='text-2xl font-bold py-4'>Home</h1>
-			<p>User Email: {user && user.email}</p>
+			<p>User Email: {userInfo && userInfo.email}</p>
 			<p>
-				Favorite Sport/Team: {favorites?.sport} / {favorites?.team}
+				Favorite Sport/Team: {userInfo?.sport} / {userInfo?.team}
 			</p>
 			<Button label='Logout' style='px-6 py-2 my-4' onClick={handleLogout} />
 		</div>

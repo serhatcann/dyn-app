@@ -29,8 +29,8 @@ const SignIn = () => {
 		if (!email || !password) return;
 
 		try {
-			await signIn({ email, password });
-			navigate(HOME);
+			const response = await signIn({ email, password });
+			if (response) navigate(HOME);
 		} catch (error: any) {
 			console.log(error);
 		}
