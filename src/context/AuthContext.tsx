@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 					team: user.team,
 				});
 				setUserInfo({ email, sport: user.sport, team: user.team });
-				return email;
+				return { email };
 			}
 		} catch (error) {
 			return error;
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			if (docSnap.exists()) {
 				const { sport, team } = docSnap.data();
 				setUserInfo({ email: user.email, sport, team });
-				return user.email;
+				return { email: user.email };
 			} else {
 				return { message: 'No such document!' };
 			}
