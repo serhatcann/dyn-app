@@ -1,16 +1,32 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import InputGroup from '../components/InputGroup';
 import { HOME, SIGN_UP } from '../constant';
 import { UserAuth } from '../context/AuthContext';
+import { useRef } from 'react';
+
+interface FormElements extends HTMLFormControlsCollection {
+	email: HTMLInputElement;
+	password: HTMLInputElement;
+}
+
+interface MyFormElement extends HTMLFormElement {
+	readonly elements: FormElements;
+}
 
 const SignIn = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
 	const { signIn } = UserAuth();
 
-	const handleSubmit = async (e: any) => {
+	const formRef = useRef<HTMLFormElement | null>(null);
+
+	const handleSubmit = async (e: React.FormEvent<MyFormElement>) => {
 		e.preventDefault();
+
+		const email = e.currentTarget.elements.email?.value;
+		const password = e.currentTarget.elements.password?.value;
+
+		if (!email || !password) return;
+
 		try {
 			await signIn({ email, password });
 			navigate(HOME);
@@ -30,27 +46,19 @@ const SignIn = () => {
 					</Link>
 				</p>
 			</div>
-			<form onSubmit={handleSubmit}>
-				<div className='flex flex-col py-2'>
-					<label className='py-2 font-medium'>Email Address</label>
-					<input
-						className='border p-3'
-						type='email'
-						value={email}
-						required
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</div>
-				<div className='flex flex-col py-2'>
-					<label className='py-2 font-medium'>Password</label>
-					<input
-						className='border p-3'
-						type='password'
-						value={password}
-						required
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</div>
+			<form onSubmit={handleSubmit} ref={formRef}>
+				<InputGroup
+					name='email'
+					type='email'
+					label='Email Address'
+					required={true}
+				/>
+				<InputGroup
+					name='password'
+					type='password'
+					label='Password'
+					required={true}
+				/>
 				<button className='border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white'>
 					Sign In
 				</button>

@@ -1,18 +1,33 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import InputGroup from '../components/InputGroup';
 import { HOME, SIGN_IN } from '../constant';
 import { UserAuth } from '../context/AuthContext';
 
+interface FormElements extends HTMLFormControlsCollection {
+	email: HTMLInputElement;
+	password: HTMLInputElement;
+	sport: HTMLInputElement;
+	team: HTMLInputElement;
+}
+
+interface MyFormElement extends HTMLFormElement {
+	readonly elements: FormElements;
+}
+
 const SignUp = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [sport, setSport] = useState('');
-	const [team, setTeam] = useState('');
 	const navigate = useNavigate();
 	const { registerUser } = UserAuth();
 
-	const handleSubmit = async (e: any) => {
+	const handleSubmit = async (e: React.FormEvent<MyFormElement>) => {
 		e.preventDefault();
+
+		const email = e.currentTarget.elements.email?.value;
+		const password = e.currentTarget.elements.password?.value;
+		const sport = e.currentTarget.elements.sport?.value;
+		const team = e.currentTarget.elements.team?.value;
+
+		if (!email || !password || !sport || !team) return;
+
 		try {
 			await registerUser({ email, password, sport, team });
 			navigate(HOME);
@@ -33,46 +48,30 @@ const SignUp = () => {
 				</p>
 			</div>
 			<form onSubmit={handleSubmit}>
-				<div className='flex flex-col py-2'>
-					<label className='py-2 font-medium'>Email Address</label>
-					<input
-						className='border p-3'
-						type='email'
-						value={email}
-						required
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</div>
-				<div className='flex flex-col py-2'>
-					<label className='py-2 font-medium'>Password</label>
-					<input
-						className='border p-3'
-						type='password'
-						value={password}
-						required
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</div>
-				<div className='flex flex-col py-2'>
-					<label className='py-2 font-medium'>Favorite Sport</label>
-					<input
-						className='border p-3'
-						type='text'
-						value={sport}
-						required
-						onChange={(e) => setSport(e.target.value)}
-					/>
-				</div>
-				<div className='flex flex-col py-2'>
-					<label className='py-2 font-medium'>Favorite Team</label>
-					<input
-						className='border p-3'
-						type='text'
-						value={team}
-						required
-						onChange={(e) => setTeam(e.target.value)}
-					/>
-				</div>
+				<InputGroup
+					name='email'
+					type='email'
+					label='Email Address'
+					required={true}
+				/>
+				<InputGroup
+					name='password'
+					type='password'
+					label='Password'
+					required={true}
+				/>
+				<InputGroup
+					name='sport'
+					type='text'
+					label='Favorite Sport'
+					required={true}
+				/>
+				<InputGroup
+					name='team'
+					type='text'
+					label='Favorite Team'
+					required={true}
+				/>
 				<button className='border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white'>
 					Sign Up
 				</button>
