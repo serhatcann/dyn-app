@@ -1,3 +1,4 @@
+<base target="_blank">
 # DYN APP
 
 Simple web application that saves your favorite sport and team and shows on the home page
